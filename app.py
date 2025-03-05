@@ -19,7 +19,10 @@ if not firebase_credentials:
     raise ValueError("FIREBASE_CREDENTIALS environment variable is not set.")
 
 # Use the credentials directly (no need for json.loads or a file path)
-cred = credentials.Certificate(firebase_credentials)
+
+cred_dict = json.loads(firebase_credentials)
+# cred = credentials.Certificate(firebase_credentials)
+cred = credentials.Certificate(cred_dict)
 
 # Initialize Firebase Admin
 firebase_admin.initialize_app(cred)
