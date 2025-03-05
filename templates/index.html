@@ -90,13 +90,6 @@
             color: #ffffff; /* Invert colors on hover */
         }
 
-        footer {
-            margin-top: 40px;
-            text-align: center;
-            font-size: 0.9rem;
-            color: #666666; /* Gray for footer text */
-        }
-
         /* RESPONSIVENESS */
         @media (max-width: 768px) {
             header h1 {
@@ -116,6 +109,24 @@
                 font-size: 0.9rem;
             }
         }
+
+
+        footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: #ffffff;
+        color: #666;
+        text-align: center;
+        padding: 10px 0;
+        font-size: 0.9rem;
+        z-index: 1000;
+    }
+
+    .footer-banner {
+        font-weight: bold;
+    }
     </style>
 </head>
 <body>
@@ -136,8 +147,15 @@
     </div>
 
     <!-- FOOTER -->
-    <footer>
+<!--     <footer>
         &copy; jeasilver - ALL RIGHTS RESERVED
+    </footer> -->
+    <footer>
+        <div class="footer-banner">
+            <!-- &copy; 2024-25 jeasilver - ALL RIGHTS RESERVED -->
+            &copy; jaesilver - ALL RIGHTS RESERVED
+
+        </div>
     </footer>
 
     <script>
