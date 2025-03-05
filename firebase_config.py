@@ -3,7 +3,7 @@ import firebase_admin
 from firebase_admin import credentials
 
 # Get the credentials path from an environment variable
-credentials_path = os.getenv("config/firebase_credentials.json")
+credentials_path = os.getenv("FIREBASE_CREDENTIALS")
 
 if not credentials_path:
     raise ValueError("Firebase credentials path not set. Please set FIREBASE_CREDENTIALS_PATH.")
