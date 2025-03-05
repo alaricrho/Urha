@@ -10,7 +10,18 @@ app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 
 
-cred = credentials.Certificate("FIREBASE_CREDENTIALS")
+# cred = credentials.Certificate("FIREBASE_CREDENTIALS")
+# firebase_admin.initialize_app(cred)
+
+firebase_credentials = os.getenv('FIREBASE_CREDENTIALS')
+
+if not firebase_credentials:
+    raise ValueError("FIREBASE_CREDENTIALS environment variable is not set.")
+
+# Use the credentials directly (no need for json.loads or a file path)
+cred = credentials.Certificate(firebase_credentials)
+
+# Initialize Firebase Admin
 firebase_admin.initialize_app(cred)
 
 # Initialize Firestore
