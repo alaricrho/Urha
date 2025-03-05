@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select a Quiz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #ffffff;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+
+        .search-container {
+            width: 100%;
+            max-width: 400px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px 15px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #fff;
+            outline: none;
+            color: #333;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            border-color: #333;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-input::placeholder {
+            color: #aaa;
+        }
+
+        .search-input:focus::placeholder {
+            color: transparent;
+        }
+
+        ul {
+            list-style: none;
+            width: 100%;
+            max-width: 400px;
+            padding: 0;
+            margin-top: 20px;
+        }
+
+        li {
+            background: #ffffff;
+            border: 1px solid #ccc;
+            border-radius: 12px;
+            margin: 10px 0;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s ease-in-out;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        li:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .quiz-title {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #333;
+            max-width: 250px; /* Limit width to ensure wrapping */
+            word-wrap: break-word; /* Ensures long words break */
+            overflow-wrap: break-word; /* Ensures long words break */
+            white-space: normal; /* Allows wrapping */
+            margin-right: 10px; /* Adds space between title and button */
+        }
+
+        .btn {
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .btn:hover {
+            background-color: #555;
+            transform: scale(1.05);
+        }
+
+        .btn-home {
+            margin-top: 20px;
+            padding: 12px 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #fff;
+            background-color: #000000;
+            border-radius: 5px;
+            text-decoration: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .btn-home:hover {
+            background-color: #333;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Scroll to Bottom Button */
+        .scroll-to-bottom {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background-color: #000000;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+        }
+
+        .scroll-to-bottom:hover {
+            background-color: #0056b3;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .search-container {
+                width: 90%;
+            }
+
+            .search-input {
+                padding: 10px 16px;
+            }
+
+            ul {
+                width: 100%;
+            }
+
+            .btn-home {
+                font-size: 0.9rem;
+                padding: 10px;
+            }
+
+            .scroll-to-bottom {
+                bottom: 15px;
+                right: 15px;
+            }
+        }
+        .no-quizzes {
+            text-align: center;  
+            margin-top: 20px;     
+            font-size: 18px;      
+            font-weight: bold;    
+            color: #333;          
+        }
+    </style>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
+  
+    <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyDOjO2S3YzUUhDQMqgp8B8TCHJXaAts2mQ",
+      authDomain: "urha1234.firebaseapp.com",
+      projectId: "urha1234",
+      storageBucket: "urha1234.firebasestorage.app",
+      messagingSenderId: "397009066933",
+      appId: "1:397009066933:web:5615700752766a1b89d7fc",
+      measurementId: "G-SYXMPM1GV7"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+</head>
+<body>
+
+    <h1>Select a Week to Practice</h1>
+
+
+    <!-- const firebaseConfig = {
+        apiKey: "AIzaSyDHLYXSn0XwifI4vnrLN9_ruh_vhHNtntM",
+        authDomain: "urha-1234.firebaseapp.com",
+        projectId: "urha-1234",
+        storageBucket: "urha-1234.firebasestorage.app",
+        messagingSenderId: "656612561576",
+        appId: "1:656612561576:web:0651052c8db93b37f6689d",
+        measurementId: "G-5NPLT7DVPQ"
+    }; -->
+
+    <div class="search-container">
+        <input type="text" id="search-input" class="search-input" placeholder="Search quizzes..." onkeyup="filterQuizzes()">
+    </div>
+
+    <ul id="quiz-list">
+        {% if quizzes %}
+        {% for quiz in quizzes %}
+            <li role="listitem">
+                <span class="quiz-title">{{ quiz.quiz_name }}</span>
+                <a href="{{ url_for('quiz', quiz_name=quiz.quiz_name) }}" class="btn" aria-label="Play Quiz: {{ quiz.quiz_name }}">Practice</a>
+            </li>
+        {% endfor %}
+        {% else %}
+            <p class="no-quizzes">No weeks available. Please check back later!</p>
+        {% endif %}
+    </ul>
+    <a href="{{ url_for('index') }}" class="btn-home">Back to Home</a>
+
+
+    <div class="scroll-to-bottom" onclick="scrollToBottom()">↓</div>
+
+    <script>
+        function filterQuizzes() {
+            var searchInput = document.getElementById('search-input').value.toLowerCase();
+            var quizList = document.getElementById('quiz-list');
+            var quizzes = quizList.getElementsByTagName('li');
+
+            for (var i = 0; i < quizzes.length; i++) {
+                var quizTitle = quizzes[i].getElementsByClassName('quiz-title')[0].textContent.toLowerCase();
+                if (quizTitle.includes(searchInput)) {
+                    quizzes[i].style.display = '';
+                } else {
+                    quizzes[i].style.display = 'none';
+                }
+            }      
+        }
+
+        function scrollToBottom() {
+            window.scrollTo({
+                top: document.body.scrollHeight,
+                behavior: 'smooth'
+            });
+        }
+    </script>
+
+</body>
+</html>
+

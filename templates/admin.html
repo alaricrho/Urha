@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Urha25</title>
+    <style>
+        /* RESET */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: #000;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin-bottom: 10px;
+            font-size: 2rem;
+        }
+
+        header a {
+            color: #ff4d4d;
+            text-decoration: none;
+            font-size: 0.9rem;
+            padding: 8px 15px;
+            border: 1px solid #ff4d4d;
+            border-radius: 4px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        header a:hover {
+            background-color: #ff4d4d;
+            color: #fff;
+        }
+
+        main {
+            flex: 1;
+            padding: 40px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .section {
+            flex: 1 1 45%;
+            background: #fff;
+            margin: 10px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .section h2 {
+            font-size: 1.5rem;
+            color: #000;
+            margin-bottom: 15px;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        button {
+            background-color: #000;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #333;
+        }
+
+        .add-question-btn {
+            background-color: #28a745;
+            color: #fff;
+            padding: 10px 20px;
+            text-align: center;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .add-question-btn:hover {
+            background-color: #218838;
+        }
+
+        .delete-question-btn {
+            background-color: #ff4d4d;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .delete-question-btn:hover {
+            background-color: #e63939;
+        }
+
+        footer {
+            text-align: center;
+            background: #000;
+            color: #fff;
+            padding: 15px 0;
+        }
+
+        /* Styling for the Language dropdown */
+        .language-select {
+            background-color: #fff;
+            color: #000;
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            appearance: none; /* Remove default dropdown styling */
+            outline: none;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .language-select:focus {
+            border-color: #000; /* Highlight on focus */
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Label styling */
+        label[for="language"] {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            display: inline-block;
+            color: #000;
+        }
+
+
+        /* RESPONSIVENESS */
+        @media (max-width: 768px) {
+            main {
+                flex-direction: column;
+                padding: 20px;
+            }
+
+            .section {
+                flex: 1 1 100%;
+            }
+        }
+    </style>
+
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
+
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyDOjO2S3YzUUhDQMqgp8B8TCHJXaAts2mQ",
+      authDomain: "urha1234.firebaseapp.com",
+      projectId: "urha1234",
+      storageBucket: "urha1234.firebasestorage.app",
+      messagingSenderId: "397009066933",
+      appId: "1:397009066933:web:5615700752766a1b89d7fc",
+      measurementId: "G-SYXMPM1GV7"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+</head>
+<body>
+    <header>
+        <h1>Admin Dashboard</h1>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </header>
+    
+    <main>
+        <div class="section">
+            <h2>{{ 'Edit' if quiz_name else 'Create New' }} Quiz</h2>
+            <!-- <form method="POST" action="{{ url_for('create_or_edit_quiz', quiz_name=quiz_name) }}">
+                <label for="quiz_name">Quiz Name:</label>
+                <input type="text" id="quiz_name" name="quiz_name" value="{{ quiz_name or '' }}" required>
+
+                <div id="questions-container">
+                    {% if current_questions %}
+                        {% for question in current_questions %}
+                            <div class="question-block" id="question-{{ loop.index }}">
+                                <h3>Question {{ loop.index }}</h3>
+                                <label for="question-{{ loop.index }}">Question:</label>
+                                <input type="text" name="question-{{ loop.index }}" value="{{ question['question'] }}" required>
+
+                                <label for="answer-{{ loop.index }}">Answer:</label>
+                                <input type="text" name="answer-{{ loop.index }}" value="{{ question['answer'] }}" required>
+
+                                <button type="button" class="delete-question-btn" onclick="deleteQuestion('{{ loop.index }}')">Delete</button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+
+                <button type="button" class="add-question-btn" id="add-question-btn">Add Question</button>
+                <button type="submit">Save Quiz</button>
+            </form> -->
+            <form method="POST" action="{{ url_for('create_or_edit_quiz', quiz_name=quiz_name) }}">
+                <label for="quiz_name">Quiz Name:</label>
+                <input type="text" id="quiz_name" name="quiz_name" value="{{ quiz_name or '' }}" required>
+                <label for="language">Language:</label>
+                <select id="language" name="language" required class="language-select">
+                    <option value="english" {% if language == 'english' %}selected{% endif %}>English</option>
+                    <option value="malayalam" {% if language == 'malayalam' %}selected{% endif %}>Malayalam</option>
+                </select>                
+            
+                <div id="questions-container">
+                    {% if current_questions %}
+                        {% for question in current_questions %}
+                            <div class="question-block" id="question-{{ loop.index }}">
+                                <h3>Question {{ loop.index }}</h3>
+                                <label for="question-{{ loop.index }}">Question:</label>
+                                <input type="text" name="question-{{ loop.index }}" value="{{ question['question'] }}" required>
+            
+                                <label for="answer-{{ loop.index }}">Answer:</label>
+                                <input type="text" name="answer-{{ loop.index }}" value="{{ question['answer'] }}" required>
+            
+                                <button type="button" class="delete-question-btn" onclick="deleteQuestion('{{ loop.index }}')">Delete</button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            
+                <button type="button" class="add-question-btn" id="add-question-btn">Add Question</button>
+                <button type="submit">Save Quiz</button>
+            </form>
+        </div>
+
+        <div class="section">
+            <h2>Existing Quizzes</h2>
+            <ul>
+                {% for quiz_name, questions in quizzes.items() %}
+                    <li>
+                        <strong>{{ quiz_name }}</strong>
+                        <button onclick="loadQuiz('{{ quiz_name }}')">Edit</button>
+                        <form action="/admin/delete/{{ quiz_name }}" method="GET" style="display:inline;">
+                            <button type="submit" class="delete-quiz-btn" onclick="return confirm('Delete quiz?')">Delete</button>
+                        </form>
+                    </li>
+                {% else %}
+                    <li>No quizzes available.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Urha25</p>
+    </footer>
+
+    <script>
+        document.getElementById('add-question-btn').addEventListener('click', () => {
+            const questionCount = document.querySelectorAll('.question-block').length + 1;
+            const questionHTML = `
+                <div class="question-block" id="question-${questionCount}">
+                    <h3>Question ${questionCount}</h3>
+                    <label for="question-${questionCount}">Question:</label>
+                    <input type="text" name="question-${questionCount}" required>
+    
+                    <label for="answer-${questionCount}">Answer:</label>
+                    <input type="text" name="answer-${questionCount}" required>
+    
+                    <button type="button" class="delete-question-btn" onclick="deleteQuestion(${questionCount})">Delete</button>
+                </div>
+            `;
+            document.getElementById('questions-container').insertAdjacentHTML('beforeend', questionHTML);
+        });
+    
+        function deleteQuestion(index) {
+            const questionBlock = document.getElementById(`question-${index}`);
+            questionBlock.remove();
+        }
+    
+        function loadQuiz(quizName) {
+            // Make an AJAX request to fetch quiz data
+            fetch(`/admin/get_quiz/${quizName}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch quiz data');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.error) {
+                        alert(data.error);
+                        return;
+                    }
+    
+                    // Populate the form with the quiz data
+                    const questionsContainer = document.getElementById('questions-container');
+                    const quizNameField = document.getElementById('quiz_name');
+                    
+                    // Clear existing questions
+                    questionsContainer.innerHTML = '';
+    
+                    // Set quiz name
+                    quizNameField.value = quizName;
+    
+                    // Populate questions
+                    data.questions.forEach((q, index) => {
+                        const questionIndex = index + 1;
+                        const questionHTML = `
+                            <div class="question-block" id="question-${questionIndex}">
+                                <h3>Question ${questionIndex}</h3>
+                                <label for="question-${questionIndex}">Question:</label>
+                                <input type="text" name="question-${questionIndex}" value="${q.question}" required>
+    
+                                <label for="answer-${questionIndex}">Answer:</label>
+                                <input type="text" name="answer-${questionIndex}" value="${q.answer}" required>
+    
+                                <button type="button" class="delete-question-btn" onclick="deleteQuestion(${questionIndex})">Delete</button>
+                            </div>
+                        `;
+                        questionsContainer.insertAdjacentHTML('beforeend', questionHTML);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Failed to load quiz data.');
+                });
+        }
+    </script>
+    
+</body>
+</html>

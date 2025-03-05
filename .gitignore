@@ -1,0 +1,5 @@
+# Ignore all JSON files
+*.json
+
+# Alternatively, specifically ignore your Firebase credentials
+urha1234-firebase-adminsdk-fbsvc-f5375bcdac.json

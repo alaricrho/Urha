@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Select Language</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #ffffff; /* Pure white background */
+            color: #000000; /* Black text for contrast */
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Center content vertically */
+            align-items: center; /* Center content horizontally */
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 30px;
+            color: #333333;
+            text-align: center;
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px; /* Space between buttons */
+            align-items: center;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            font-size: 1rem;
+            text-decoration: none;
+            border: 2px solid #000000;
+            border-radius: 8px;
+            color: #000000;
+            text-align: center;
+            background-color: #ffffff; /* Light gray background */
+            transition: background-color 0.3s, color 0.3s;
+            width: 200px; /* Fixed width for buttons */
+            text-transform: uppercase; /* Uppercase text */
+        }
+
+        .btn:hover {
+            background-color: #000000; /* Dark background on hover */
+            color: #ffffff; /* White text on hover */
+        }
+
+        .btn-back {
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .btn-back:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        footer {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #666666; /* Gray for footer text */
+        }
+
+        /* RESPONSIVENESS */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .btn {
+                font-size: 1rem;
+            }
+        }
+    </style>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
+  
+    <script>
+      // Initialize Firebase
+      const firebaseConfig = {
+        apiKey: "your-api-key",
+        authDomain: "your-auth-domain.firebaseapp.com",
+        projectId: "your-project-id",
+        storageBucket: "your-storage-bucket.appspot.com",
+        messagingSenderId: "your-messaging-sender-id",
+        appId: "your-app-id",
+      };
+  
+      // Initialize Firebase
+      const app = firebase.initializeApp(firebaseConfig);
+      const db = firebase.firestore();  // Firestore Database instance
+    </script>
+</head>
+<body>
+    <h1>Select Your Language</h1>
+
+    <div class="button-container">
+        <a href="{{ url_for('quizzes', lang='english') }}" class="btn">English</a>
+        <a href="{{ url_for('quizzes', lang='malayalam') }}" class="btn">Malayalam</a>
+        <a href="{{ url_for('index') }}" class="btn-back">Back to Home</a>
+    </div>
+</body>
+</html>

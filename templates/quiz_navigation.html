@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ quiz_name }} - Quiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fdfdfd;
+            color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            padding: 25px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #222;
+            margin-bottom: 15px;
+        }
+
+        .question-number {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .question-text {
+            font-size: 1.2rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 20px;
+            margin: 10px 5px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #ffffff;
+            background: #333333;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .btn:hover {
+            background: #555555;
+            transform: scale(1.03);
+        }
+
+        .btn:disabled {
+            background: #aaaaaa;
+            cursor: not-allowed;
+        }
+
+        .progress-bar {
+            width: 100%;
+            background: #eaeaea;
+            height: 12px;
+            border-radius: 6px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-bar-inner {
+            height: 100%;
+            background: #333333;
+            /* width: {{ progress }}%; */
+            transition: width 0.3s ease;
+        }
+
+        .answer-section {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .answer {
+            font-size: 1rem;
+            color: #333333;
+            font-weight: 400;
+            display: none;
+            margin-top: 10px;
+        }
+
+        .btn-show-answer {
+            background: #f5f5f5;
+            color: #333;
+            border: 1px solid #ccc;
+        }
+
+        .btn-show-answer:hover {
+            background: #e0e0e0;
+            color: #111;
+        }
+
+        .navigation {
+            margin-top: 20px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .navigation a {
+            flex: 1;
+            margin: 0 5px;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .btn {
+                padding: 10px 18px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
+  
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-analytics.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+      
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+          apiKey: "AIzaSyDOjO2S3YzUUhDQMqgp8B8TCHJXaAts2mQ",
+          authDomain: "urha1234.firebaseapp.com",
+          projectId: "urha1234",
+          storageBucket: "urha1234.firebasestorage.app",
+          messagingSenderId: "397009066933",
+          appId: "1:397009066933:web:5615700752766a1b89d7fc",
+          measurementId: "G-SYXMPM1GV7"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+      </script>
+</head>
+<body>
+    <div class="container">
+        <h1>{{ quiz_name }}</h1>
+        <div class="question-number">
+            Question {{ question_index + 1 }} of {{ total_questions }}
+        </div>
+        <div class="question-text">
+            {{ question['question'] }}
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-bar-inner"></div>
+        </div>
+
+        <div class="answer-section">
+            <button 
+                id="toggle-answer-btn" 
+                class="btn btn-show-answer" 
+                onclick="toggleAnswer()"
+            >
+                Show Answer
+            </button>
+            <div id="answer" class="answer">
+                <strong>Answer:</strong> {{ question['answer'] }}
+            </div>
+        </div>
+
+        <div class="navigation">
+            <a href="{{ url_for('quiz', quiz_name=quiz_name, question=question_index - 1) }}" 
+               class="btn" 
+               {% if question_index == 0 %}disabled{% endif %}>
+                Previous
+            </a>
+            <a href="{{ url_for('quiz', quiz_name=quiz_name, question=question_index + 1) }}" 
+               class="btn" 
+               {% if question_index == total_questions - 1 %}disabled{% endif %}>
+                Next
+            </a>
+        </div>
+
+        <!-- <a href="{{ url_for('quizzes') }}" class="btn" style="margin-top: 20px;">
+            Back to Quizzes
+        </a> -->
+        <a href="{{ url_for('quizzes', lang=selected_language) }}" class="btn" style="margin-top: 20px;">Back to Quizzes</a>
+
+    </div>
+
+    <script>
+        const answerElement = document.getElementById('answer');
+        const toggleButton = document.getElementById('toggle-answer-btn');
+        
+        // Initially hide the answer
+        answerElement.style.display = 'none';
+        
+        function toggleAnswer() {
+            if (answerElement.style.display === 'none') {
+                answerElement.style.display = 'block';
+                toggleButton.textContent = 'Hide Answer';
+            } else {
+                answerElement.style.display = 'none';
+                toggleButton.textContent = 'Show Answer';
+            }
+        }
+    </script>
+</body>
+</html>

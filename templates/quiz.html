@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ quiz_name }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .question {
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: #000000;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #444444;
+        }
+
+        .answer {
+            display: none;
+            margin-top: 10px;
+            color: #444444;
+        }
+    </style>
+    <script>
+        function showAnswer(id) {
+            document.getElementById(id).style.display = 'block';
+        }
+    </script>
+</head>
+<body>
+    <h1>{{ quiz_name }}</h1>
+    {% for question in questions %}
+        <div class="question">
+            <h2>Q{{ loop.index }}: {{ question['question'] }}</h2>
+            <button class="btn" onclick="showAnswer('answer-{{ loop.index }}')">Show Answer</button>
+            <p class="answer" id="answer-{{ loop.index }}">{{ question['answer'] }}</p>
+        </div>
+    {% endfor %}
+</body>
+</html>
