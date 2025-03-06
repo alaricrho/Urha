@@ -14,15 +14,30 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+/*             font-family: 'Inter', sans-serif;
             background-color: #fdfdfd;
             color: #333;
             display: flex;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            padding: 20px;
+            padding: 20px; */
+            font-family: 'Inter', sans-serif;
+    background-color: #fdfdfd;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
         }
+
+        .page-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 
         .container {
             background: #ffffff;
@@ -151,6 +166,15 @@
                 font-size: 0.9rem;
             }
         }
+
+
+        footer {
+    text-align: center;
+    margin-top: auto;
+    width: 100%;
+    background-color: #f9f9f9;
+    padding: 10px 0;
+}
     </style>
 
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9122502151193695"
@@ -183,7 +207,8 @@
       </script>
 </head>
 <body>
-    <div class="container">
+    <div class="page-wrapper">
+        <div class="container">
         <h1>{{ quiz_name }}</h1>
         <div class="question-number">
             Question {{ question_index + 1 }} of {{ total_questions }}
@@ -228,9 +253,7 @@
         <a href="{{ url_for('quizzes', lang=selected_language) }}" class="btn" style="margin-top: 20px;">Back to Quizzes</a>
 
     </div>
-
-
-    <footer style="text-align: center; margin-top: 20px;">
+<footer>
     <p>© 2025 Urha App. All rights reserved.</p>
 
     <!-- AdSense Banner Ad -->
@@ -246,6 +269,8 @@
         (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
 </footer>
+
+    </div>
 
     <script>
         const answerElement = document.getElementById('answer');
