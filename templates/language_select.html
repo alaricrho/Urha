@@ -75,13 +75,13 @@
             transform: scale(1.05);
         }
 
-        footer {
+/*         footer {
             margin-top: 40px;
             text-align: center;
             font-size: 0.9rem;
-            color: #666; /* Gray for footer text */
+            color: #666; 
             font-weight: bold;
-        }
+        } */
 
         /* RESPONSIVENESS */
         @media (max-width: 768px) {
@@ -94,15 +94,23 @@
             }
         }
 
-         footer {
-    text-align: center;
-    margin-top: auto;
-    width: 100%;
-    background-color: #ffffff;
-    padding: 10px 0;
-    color: #666; /* Gray for footer text */
-    font-weight: bold;
-}
+       footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: #ffffff;
+        color: #666;
+        text-align: center;
+        padding: 10px 0;
+        font-size: 0.9rem;
+        z-index: 1000;
+    }
+
+    .footer-banner {
+        font-weight: bold;
+    }
+
     </style>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
@@ -134,8 +142,11 @@
     </div>
 
 
-    <footer style="position:fixed; bottom:0; left:0; width:100%; background-color:#f9f9f9; padding:10px 0; z-index:100;">
-    <p>© 2025 Urha App. All rights reserved.</p> 
+    <footer>
+        <div class="footer-banner">
+            <!-- &copy; 2024-25 jeasilver - ALL RIGHTS RESERVED -->
+            &copy; 2025 Urha App. All rights reserved.
+        </div>
     </footer>
 </body>
 </html>
