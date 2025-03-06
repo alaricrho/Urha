@@ -92,6 +92,14 @@
                 font-size: 1rem;
             }
         }
+
+         footer {
+    text-align: center;
+    margin-top: auto;
+    width: 100%;
+    background-color: #f9f9f9;
+    padding: 10px 0;
+}
     </style>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
@@ -121,5 +129,10 @@
         <a href="{{ url_for('quizzes', lang='malayalam') }}" class="btn">Malayalam</a>
         <a href="{{ url_for('index') }}" class="btn-back">Back to Home</a>
     </div>
+
+
+    <footer style="position:fixed; bottom:0; left:0; width:100%; background-color:#f9f9f9; padding:10px 0; z-index:100;">
+    <p>© 2025 Urha App. All rights reserved.</p> 
+    </footer>
 </body>
 </html>
