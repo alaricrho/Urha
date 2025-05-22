@@ -218,6 +218,43 @@
     .footer-banner {
         font-weight: bold;
     }
+    .jump-to-question {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .jump-to-question label {
+        font-weight: bold;
+        margin-right: 10px;
+    }
+
+    .jump-to-question select {
+        padding: 8px 12px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 16px;
+        background-color: #fff;
+        cursor: pointer;
+        transition: border-color 0.3s;
+    }
+
+    .jump-to-question select:hover,
+    .jump-to-question select:focus {
+        border-color: #007BFF;
+        outline: none;
+    }
+
+    @media (max-width: 600px) {
+        .jump-to-question select {
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .jump-to-question label {
+            display: block;
+            margin-bottom: 5px;
+        }
+    }
 
     </style>
 
@@ -290,6 +327,16 @@
                 Next
             </a>
         </div>
+        <div class="jump-to-question">
+            <label for="question-select">Jump to:</label>
+            <select id="question-select" onchange="jumpToQuestion(this)">
+                {% for i in range(total_questions) %}
+                    <option value="{{ i }}" {% if i == question_index %}selected{% endif %}>
+                        Question {{ i + 1 }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
 
         <!-- <a href="{{ url_for('quizzes') }}" class="btn" style="margin-top: 20px;">
             Back to Quizzes
@@ -336,6 +383,10 @@
                 answerElement.style.display = 'none';
                 toggleButton.textContent = 'Show Answer';
             }
+        }
+        function jumpToQuestion(selectElement) {
+            const selectedQuestion = selectElement.value;
+            window.location.href = `{{ url_for('quiz', quiz_name=quiz_name) }}?question=${selectedQuestion}`;
         }
     </script>
 </body>
